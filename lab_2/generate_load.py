@@ -6,42 +6,54 @@ from prim_algorithm import PrimGenerator
 
 
 def generate(width, height, alg, rand='not_rand'):
-        try:
-            int(width)
-            int(height)
-        except Exception as e:
-            raise ValueError('Третий и четвёртый аргументы должны быть '
-                             'целыми числами, большими 1 - это ширина и высота лабиринта')
-        width = int(width)
-        height = int(height)
-        if width <= 1 or height <= 1:
-            raise ValueError('Третий и четвёртый аргументы должны быть '
-                             'целыми числами, большими 1 - это ширина и высота лабиринта')
-        else:
-            if alg == 'prim':
-                if rand == 'rand' or rand == 'not_rand':
-                    if rand == 'rand':
-                        rand = True
-                    else:
-                        rand = False
-                    maze = PrimGenerator.create(width, height, rand)
+    """
+    Генерирует лабиринт заданного размера с использованием указанного алгоритма.
+    :param width: Ширина лабиринта
+    :param height: Высота лабиринта
+    :param alg: Алгоритм генерации
+    :param rand: Режим случайности
+    :return: Лабиринт
+    """
+    try:
+        int(width)
+        int(height)
+    except Exception as e:
+        raise ValueError('Третий и четвёртый аргументы должны быть '
+                         'целыми числами, большими 1 - это ширина и высота лабиринта')
+    width = int(width)
+    height = int(height)
+    if width <= 1 or height <= 1:
+        raise ValueError('Третий и четвёртый аргументы должны быть '
+                         'целыми числами, большими 1 - это ширина и высота лабиринта')
+    else:
+        if alg == 'prim':
+            if rand == 'rand' or rand == 'not_rand':
+                if rand == 'rand':
+                    rand = True
                 else:
-                    raise ValueError('Пятый аргумент задан некорректно: требуется rand, not_rand или ничего')
-            elif alg == 'dfs':
-                if rand == 'rand' or rand == 'not_rand':
-                    if rand == 'rand':
-                        rand = True
-                    else:
-                        rand = False
-                    maze = DfsGenerator.create(width, height, rand)
-                else:
-                    ValueError('Пятый аргумент задан некорректно: требуется rand, not_rand или ничего')
+                    rand = False
+                maze = PrimGenerator.create(width, height, rand)
             else:
-                raise ValueError('Второй аргумент задан некорректно: требуется prim или dfs')
-        return maze
+                raise ValueError('Пятый аргумент задан некорректно: требуется rand, not_rand или ничего')
+        elif alg == 'dfs':
+            if rand == 'rand' or rand == 'not_rand':
+                if rand == 'rand':
+                    rand = True
+                else:
+                    rand = False
+                maze = DfsGenerator.create(width, height, rand)
+            else:
+                ValueError('Пятый аргумент задан некорректно: требуется rand, not_rand или ничего')
+        else:
+            raise ValueError('Второй аргумент задан некорректно: требуется prim или dfs')
+    return maze
 
 
 def load_maze():
+    """
+    Загружает лабиринт из текстового файла
+    :return: Загруженный лабиринт с установленными входами и выходами
+    """
     file = sys.argv[2]
     if os.path.exists(file) is True:
         with open(file, 'r') as f:

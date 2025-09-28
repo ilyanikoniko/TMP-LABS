@@ -8,7 +8,15 @@ class DfsGenerator(MazeGenerator):
 
     @classmethod
     def get_neighbours(cls, cell, width, height, used):
-        # записывает в neighbours непосещённых соседей cell
+        """
+        Возвращает список непосещённых соседних клеток на расстоянии 2 шага.
+        :param cell: Текущая клетка, для которой ищутся соседи
+        :param width: Ширина лабиринта
+        :param height: Высота лабиринта
+        :param used: Матрица посещённых клеток
+        :return: Список непосещённых соседних клеток на расстоянии 2 шага
+        """
+        # Записывает в neighbours непосещённых соседей cell
         neighbours = []
         x = cell.x
         y = cell.y
@@ -24,6 +32,13 @@ class DfsGenerator(MazeGenerator):
 
     @classmethod
     def create(cls, width, height, rand):
+        """
+        Создание лабиринта
+        :param width: Ширина создаваемого лабиринта
+        :param height: Высота создаваемого лабиринта
+        :param rand: Объект для генерации случайных чисел
+        :return: Лабиринт
+        """
         maze = Maze(width, height)
         # Создаем used внутри метода вместо классовой переменной
         used = []
@@ -39,7 +54,7 @@ class DfsGenerator(MazeGenerator):
             if len(neighbours) > 0:
                 stack.append(curr)
                 k = neighbours[random.randint(0, len(neighbours) - 1)]
-                new = Cell((curr.x + k.x) // 2, (curr.y + k.y) // 2)  # стена между двумя клетками
+                new = Cell((curr.x + k.x) // 2, (curr.y + k.y) // 2)  # Стена между двумя клетками
                 maze.set(new, State.space)
                 used[k.x][k.y] = 1
                 curr = k

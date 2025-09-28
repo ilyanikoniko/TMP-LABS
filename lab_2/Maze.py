@@ -11,10 +11,20 @@ class State(Enum):
 
 class Cell:
     def __init__(self, x_=0, y_=0):
+        """
+        Инициализация объекта ячейки с заданными координатами
+        :param x_: Координата x
+        :param y_: Координата y
+        """
         self.x = x_
         self.y = y_
 
     def __eq__(self, other):
+        """
+        Проверка равенства двух объектов
+        :param other: Объект для сравнения
+        :return: Результат проверки
+        """
         if isinstance(other, Cell):
             if self.x == other.x and self.y == other.y:
                 return True
@@ -26,7 +36,12 @@ class Cell:
 
 class Maze:
     def __init__(self, width, height):
-        # чтобы лабиринт был красивым - измерения должны быть нечётными
+        """
+        Инициализирует объект лабиринта с указанными размерами.
+        :param width: Ширина
+        :param height: Высота
+        """
+        # Чтобы лабиринт был красивым - измерения должны быть нечётными
         if width % 2 == 0:
             self.width = width + 1
         else:
@@ -36,7 +51,7 @@ class Maze:
         else:
             self.height = height
 
-        # свободные клетки разделены стенами
+        # Свободные клетки разделены стенами
         self.matrix = []
         for i in range(self.height):
             self.matrix.append([State.wall for i in range(self.width)])
@@ -49,12 +64,27 @@ class Maze:
         self.exit = None
 
     def get(self, cell: Cell):
+        """
+        Получение текущего состояния клетки лабиринта по её координатам
+        :param cell: Объект Cell, содержащий координаты интересующей клетки
+        :return: Значение состояния указанной клетки
+        """
         return self.matrix[cell.x][cell.y]
 
     def set(self, cell: Cell, value):
+        """
+        Установка нового состояния для конкретной клетки лабиринта
+        :param cell: Клетка, состояние которой надо изменить
+        :param value: Новое значение состояния клетки
+        :return: None
+        """
         self.matrix[cell.x][cell.y] = value
 
     def __str__(self):
+        """
+        Представляет лабиринт в виде строки
+        :return: Цветовая строка лабиринта с выделенными элементами
+        """
         str = ''
         for i in range(self.height):
             for j in range(self.width):
@@ -73,6 +103,11 @@ class Maze:
         return str
 
     def set_doors(self, rand):
+        """
+        Устанавливает положение входа и выхода в лабиринте
+        :param rand: Флаг, определяющий способ задания точек входа и выхода
+        :return: None
+        """
         if rand is True:
             en = 2 * random.randint(1, (self.height - 3) // 2) + 1
 
@@ -86,7 +121,11 @@ class Maze:
         self.set(self.exit, State.space)
 
     def find_doors(self):
-        #  в качестве дверей найдёт ближайшие к углам пустые клетки во внешней стене лабиринта
+        """
+        Поиск дверей лабиринта
+        :return: None
+        """
+        # В качестве дверей найдёт ближайшие к углам пустые клетки во внешней стене лабиринта
         itright = 0
         itdown = 0
         min_dist = self.width + self.height + 10
@@ -127,6 +166,12 @@ class Maze:
             raise ValueError('Двери не найдены')
 
     def save(self, file, type='w'):
+        """
+        Сохраняет лабиринт в текстовый файл в заданном формате
+        :param file: Путь к файлу для сохранения
+        :param type: Режим открытия файла
+        :return: None
+        """
         with open(file, type) as f:
             if type == 'a':
                 f.write('\n')
