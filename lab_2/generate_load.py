@@ -45,16 +45,33 @@ def load_maze():
     file = sys.argv[2]
     if os.path.exists(file) is True:
         with open(file, 'r') as f:
-            line = f.readline().strip('\n').strip()
-            width = len(line) // 3 + 1
+
+            first_line = f.readline().strip('\n').strip()
+            width = len(first_line) // 3 + 1
             maze = Maze(width, -1)
 
-        with open(file, 'r') as f:
             line_num = -1
+            line_num += 1
+            maze.matrix.append([State.wall for i in range(width)])
+            maze.height += 1
+            for i in range(width):
+                if first_line[i * 3] == '#':
+                    maze.matrix[line_num][i] = State.wall
+                elif first_line[i * 3] == '.':
+                    maze.matrix[line_num][i] = State.space
+                elif first_line[i * 3] == '/':
+                    maze.matrix[line_num][i] = State.space
+                    if maze.entry is None:
+                        maze.entry = Cell(line_num, i)
+                    else:
+                        maze.exit = Cell(line_num, i)
+                else:
+                    raise ValueError('Неверный формат представления лабиринта:\nошибка в строке ' + str(line_num))
+
             for line in f:
                 if line == '\n':
                     break
-                line.strip('\n').strip()
+                line = line.strip('\n').strip()
                 line_num += 1
                 maze.matrix.append([State.wall for i in range(width)])
                 maze.height += 1
@@ -70,8 +87,8 @@ def load_maze():
                         else:
                             maze.exit = Cell(line_num, i)
                     else:
-                        raise ValueError('Неверный формат представления лабиринта:\nошибка в строке '+str(line_num))
-            maze.height += 1
+                        raise ValueError('Неверный формат представления лабиринта:\nошибка в строке ' + str(line_num))
+
         if maze.entry is None or maze.exit is None:
             try:
                 maze.find_doors()
