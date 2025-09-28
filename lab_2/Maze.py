@@ -42,7 +42,7 @@ class Maze:
             self.matrix.append([State.wall for i in range(self.width)])
         for i in range(1, self.height - 1):
             for j in range(1, self.width - 1):
-                if i % 2 == 1 & j % 2 == 1:
+                if i % 2 == 1 and j % 2 == 1:
                     self.matrix[i][j] = State.space
 
         self.entry = None
