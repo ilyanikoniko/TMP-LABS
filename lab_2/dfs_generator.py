@@ -1,7 +1,7 @@
 import random
 from abc import ABC, abstractmethod
-from Maze import Maze, Cell, State
-from Maze_generator import MazeGenerator
+from maze import Maze, Cell, State
+from maze_generator import MazeGenerator
 
 
 class DfsGenerator(MazeGenerator):

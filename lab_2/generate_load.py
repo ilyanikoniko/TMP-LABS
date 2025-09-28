@@ -1,6 +1,6 @@
 import sys
 import os
-from Maze import Maze, Cell, State
+from maze import Maze, Cell, State
 from dfs_generator import DfsGenerator
 from prim_algorithm import PrimGenerator
 
