@@ -48,12 +48,11 @@ def load_maze():
 
             first_line = f.readline().strip('\n').strip()
             width = len(first_line) // 3 + 1
-            maze = Maze(width, -1)
+            maze = Maze(width, 0)  # Высота начинается с 0
 
-            line_num = -1
-            line_num += 1
+            line_num = 0  # Начинаем с 0 вместо -1
             maze.matrix.append([State.wall for i in range(width)])
-            maze.height += 1
+            maze.height = 1  # Высота теперь 1 после добавления первой строки
             for i in range(width):
                 if first_line[i * 3] == '#':
                     maze.matrix[line_num][i] = State.wall
