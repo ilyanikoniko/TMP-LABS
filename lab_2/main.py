@@ -5,7 +5,8 @@ from solution import solution
 
 
 if __name__ == "__main__":
-    if len(sys.argv) >= 2 and sys.argv[1] == 'load':  # Первый аргумент - либо 'load', либо 'generate'
+    # Первый аргумент - либо 'load', либо 'generate'
+    if len(sys.argv) >= 2 and sys.argv[1] == 'load':
         try:
             maze = load_maze()
             print(maze)
@@ -13,17 +14,22 @@ if __name__ == "__main__":
             print('\033[91m' + type(e).__name__ + '\033[0m', end='\n')
             print(e)
             raise SystemExit(777)
-        # В этом случае 2й аргумент - название файла, из которого будет производиться загрузка
+        # В этом случае 2й аргумент - название файла,
+        # из которого будет производиться загрузка
+
         # Файл должен лежать в одной директории с проектом
     elif len(sys.argv) >= 2 and sys.argv[1] == 'generate':
-        # А в этом случае 2й и 3й аргументы - размеры лабиринта, 4й - способ генерации: 'dfs' или 'prim'
-        # 5й агрумент необязательный, говорит как сгенерировать вход и выход: 'rand' или 'not_rand'('not_rand' по умолч)
+        # А в этом случае 2й и 3й аргументы - размеры лабиринта,
+        # 4й - способ генерации: 'dfs' или 'prim'
+        # 5й агрумент необязательный, говорит как сгенерировать вход и выход:
+        # 'rand' или 'not_rand'('not_rand' по умолч)
         if len(sys.argv) < 4:
             print('Введите в качестве 2, 3 и 4 аргументов параметры генерации')
             raise SystemExit(777)
         try:
             if len(sys.argv) > 5:
-                maze = generate(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+                maze = generate(sys.argv[2], sys.argv[3],
+                                sys.argv[4], sys.argv[5])
             else:
                 maze = generate(sys.argv[2], sys.argv[3], sys.argv[4])
             print(maze)
@@ -32,7 +38,8 @@ if __name__ == "__main__":
             print(e)
             raise SystemExit(777)
     else:
-        print('В качестве первого аргумента укажите, как вы хотите построить лабиринт: load или generate')
+        print('В качестве первого аргумента укажите, '
+              'как вы хотите построить лабиринт: load или generate')
         raise SystemExit(777)
 
     while True:
@@ -59,7 +66,8 @@ if __name__ == "__main__":
                 while True:
                     ask2 = input('Do you want to save the solution? [yes/no] ')
                     if ask2 == 'yes':
-                        file2 = input('Please, enter the filename(with extension): ')
+                        file2 = input('Please, '
+                                      'enter the filename(with extension): ')
                         if file1 == file2:
                             maze1.save(file2, 'a')
                         else:

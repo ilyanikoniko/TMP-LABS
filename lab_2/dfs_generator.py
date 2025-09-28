@@ -40,12 +40,12 @@ class DfsGenerator(MazeGenerator):
         :return: Лабиринт
         """
         if not isinstance(width, int) or not isinstance(height, int):
-            raise TypeError("Ширина и высота должны быть целочисленными значениями.")
+            raise TypeError("Ширина и высота должны быть целочисленными.")
         if width <= 2 or height <= 2:
-            raise ValueError("Минимальные размеры лабиринта должны быть больше 2.")
+            raise ValueError("Минимальные размеры лабиринта > 2.")
 
         if rand is not None and not isinstance(rand, random.Random):
-            raise TypeError("Аргумент rand должен быть объектом random.Random или None.")
+            raise TypeError("Аргумент rand должен быть объектом random.")
 
         maze = Maze(width, height)
         # Создаем used внутри метода вместо классовой переменной
@@ -58,11 +58,13 @@ class DfsGenerator(MazeGenerator):
         curr = Cell(1, 1)
 
         while len(stack) > 0:
-            neighbours = cls.get_neighbours(curr, maze.width, maze.height, used)
+            neighbours = cls.get_neighbours(curr, maze.width,
+                                            maze.height, used)
             if len(neighbours) > 0:
                 stack.append(curr)
                 k = neighbours[random.randint(0, len(neighbours) - 1)]
-                new = Cell((curr.x + k.x) // 2, (curr.y + k.y) // 2)  # Стена между двумя клетками
+                # Стена между двумя клетками
+                new = Cell((curr.x + k.x) // 2, (curr.y + k.y) // 2)
                 maze.set(new, State.space)
                 used[k.x][k.y] = 1
                 curr = k

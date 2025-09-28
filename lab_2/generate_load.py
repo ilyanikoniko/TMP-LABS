@@ -7,7 +7,8 @@ from prim_algorithm import PrimGenerator
 
 def generate(width, height, alg, rand='not_rand'):
     """
-    Генерирует лабиринт заданного размера с использованием указанного алгоритма.
+    Генерирует лабиринт заданного размера с
+    использованием указанного алгоритма.
     :param width: Ширина лабиринта
     :param height: Высота лабиринта
     :param alg: Алгоритм генерации
@@ -19,12 +20,14 @@ def generate(width, height, alg, rand='not_rand'):
         int(height)
     except Exception as e:
         raise ValueError('Третий и четвёртый аргументы должны быть '
-                         'целыми числами, большими 1 - это ширина и высота лабиринта')
+                         'целыми числами, большими 1 - это ширина '
+                         'и высота лабиринта')
     width = int(width)
     height = int(height)
     if width <= 1 or height <= 1:
         raise ValueError('Третий и четвёртый аргументы должны быть '
-                         'целыми числами, большими 1 - это ширина и высота лабиринта')
+                         'целыми числами, большими 1 - это ширина '
+                         'и высота лабиринта')
     else:
         if alg == 'prim':
             if rand == 'rand' or rand == 'not_rand':
@@ -34,7 +37,8 @@ def generate(width, height, alg, rand='not_rand'):
                     rand = False
                 maze = PrimGenerator.create(width, height, rand)
             else:
-                raise ValueError('Пятый аргумент задан некорректно: требуется rand, not_rand или ничего')
+                raise ValueError('Пятый аргумент задан некорректно: '
+                                 'требуется rand, not_rand или ничего')
         elif alg == 'dfs':
             if rand == 'rand' or rand == 'not_rand':
                 if rand == 'rand':
@@ -43,9 +47,11 @@ def generate(width, height, alg, rand='not_rand'):
                     rand = False
                 maze = DfsGenerator.create(width, height, rand)
             else:
-                ValueError('Пятый аргумент задан некорректно: требуется rand, not_rand или ничего')
+                ValueError('Пятый аргумент задан некорректно: '
+                           'требуется rand, not_rand или ничего')
         else:
-            raise ValueError('Второй аргумент задан некорректно: требуется prim или dfs')
+            raise ValueError('Второй аргумент задан некорректно: '
+                             'требуется prim или dfs')
     return maze
 
 
@@ -77,7 +83,8 @@ def load_maze():
                     else:
                         maze.exit = Cell(line_num, i)
                 else:
-                    raise ValueError('Неверный формат представления лабиринта:\nошибка в строке ' + str(line_num))
+                    raise ValueError('Неверный формат лабиринта:\n'
+                                     'ошибка в строке ' + str(line_num))
 
             for line in f:
                 if line == '\n':
@@ -98,7 +105,8 @@ def load_maze():
                         else:
                             maze.exit = Cell(line_num, i)
                     else:
-                        raise ValueError('Неверный формат представления лабиринта:\nошибка в строке ' + str(line_num))
+                        raise ValueError('Неверный формат лабиринта:\n'
+                                         'ошибка в строке ' + str(line_num))
 
         if maze.entry is None or maze.exit is None:
             try:
@@ -108,4 +116,5 @@ def load_maze():
                 raise SystemExit(777)
         return maze
     else:
-        raise ValueError('Файл с указанным во 2 аргументе названием не найден в директории проекта')
+        raise ValueError('Файл с указанным во 2 аргументе названием '
+                         'не найден в директории проекта')
