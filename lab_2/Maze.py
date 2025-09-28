@@ -41,6 +41,8 @@ class Maze:
         :param width: Ширина
         :param height: Высота
         """
+        if width <= 0 or height <= 0:
+            raise ValueError("Размеры лабиринта должны быть положительными числами.")
         # Чтобы лабиринт был красивым - измерения должны быть нечётными
         if width % 2 == 0:
             self.width = width + 1
@@ -172,15 +174,22 @@ class Maze:
         :param type: Режим открытия файла
         :return: None
         """
-        with open(file, type) as f:
-            if type == 'a':
-                f.write('\n')
-            for i in range(self.height):
-                for j in range(self.width):
-                    if self.matrix[i][j] == State.space:
-                        f.write('.  ')
-                    if self.matrix[i][j] == State.wall:
-                        f.write('#  ')
-                    if self.matrix[i][j] == State.way:
-                        f.write('S  ')
-                f.write('\n')
+        if not isinstance(file, str):
+            raise TypeError("Параметр 'file' должен быть строкой")
+        try:
+            with open(file, type) as f:
+                if type == 'a':
+                    f.write('\n')
+                for i in range(self.height):
+                    for j in range(self.width):
+                        if self.matrix[i][j] == State.space:
+                            f.write('.  ')
+                        if self.matrix[i][j] == State.wall:
+                            f.write('#  ')
+                        if self.matrix[i][j] == State.way:
+                            f.write('S  ')
+                    f.write('\n')
+        except FileNotFoundError:
+            raise ValueError(f"Файл '{file}' не найден")
+        except Exception as e:
+            raise RuntimeError(f"Неожиданная ошибка: {e}")

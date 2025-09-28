@@ -39,6 +39,14 @@ class DfsGenerator(MazeGenerator):
         :param rand: Объект для генерации случайных чисел
         :return: Лабиринт
         """
+        if not isinstance(width, int) or not isinstance(height, int):
+            raise TypeError("Ширина и высота должны быть целочисленными значениями.")
+        if width <= 2 or height <= 2:
+            raise ValueError("Минимальные размеры лабиринта должны быть больше 2.")
+
+        if rand is not None and not isinstance(rand, random.Random):
+            raise TypeError("Аргумент rand должен быть объектом random.Random или None.")
+
         maze = Maze(width, height)
         # Создаем used внутри метода вместо классовой переменной
         used = []
